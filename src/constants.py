@@ -1,9 +1,9 @@
 ALL_TOKENS = [
-  "if", "for", "else", "true", "while",
-  "false", "null", "print", "bool", "int", "str",
+  "if", "endif", "for", "else", "true", "while",
+  "false", "print", "bool", "int", "str",
   "not_token", "or", "and", "not",
   ":", "+", "-", "*", "/", ";",
-  "(", ")", "=", "<", ">", "<=", ">=", "!="
+  "=", "<", ">", "<=", ">=", "!=", 
 ]
 BUILT_IN_FUNCTIONS = [
   "print"
@@ -11,18 +11,27 @@ BUILT_IN_FUNCTIONS = [
 DATATYPE = [
   "bool", "int", "str"
 ]
+VARIABLE_DECLARATION = ["bool", "int", "str"]
+MATHS = ["+", "-", "*", "/"]
+COMPARATORS = ["<", ">", "<=", ">=", "!=", "="]
 NEXT_TOKEN = {
-  "int": ["not_token", "+", "-"],
+  "not_token": ALL_TOKENS,
+  "int": ["not_token"] + MATHS,
   "str": ["not_token"],
   "bool": ["not_token"],
-  "not_token": [":", "+", "-", "*", "/", ";", "not_token"],
   ":": ["not_token"],
   "+": ["not_token"],
   "-": ["not_token"],
   "*": ["not_token"],
   "/": ["not_token"],
   "print": ["not_token"],
-  
+  "if": ["not_token"],
+  "else": [";"],
+  "endif": [";"],
+  "<": ["not_token"],
+  "=": ["not_token"],
+  ">": ["not_token"],
+  "<=": ["not_token"],
+  ">=": ["not_token"],
+  "!=": ["not_token"],
 }
-VARIABLE_DECLARATION = ["bool", "int", "str"]
-MATHS = ["+", "-", "*", "/"]

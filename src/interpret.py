@@ -1,12 +1,32 @@
 from src import constants
+import operator
 
 variables = {}
 
 
-def Interpret(syntax_tree):
-  chunks = Chunkize(syntax_tree)
+def Interpret(syntax_tree, should_chunkize):
+  if should_chunkize:
+    chunks = Chunkize(syntax_tree)
+  else:
+    chunks = syntax_tree
+
+  if_stack = []
+  if_append = False
 
   for chunk in chunks:
+
+    if chunk[0][0] == "if":
+      if_append = True
+      if_stack.append(chunk)
+    elif chunk[0][0] == "endif":
+      if_stack.append(chunk)
+      HandleBranching(if_stack)
+      if_append = False
+      if_stack = []
+
+    if if_append:
+      if_stack.append(chunk)
+      continue
 
     if chunk[0][0] in constants.VARIABLE_DECLARATION:
       Variable(chunk)
@@ -68,7 +88,7 @@ def HandleMath(chunk):
   while i < len(expr):
       # Get the operator and the next number
     operator = expr[i][1]
-    
+
     if expr[i + 1][1] in variables:
       number = variables[expr[i + 1][1]]
     else:
@@ -114,3 +134,67 @@ def HandlePrint(chunk):
           print(chunk[i][1], end=" ")
       else:
         print(chunk[i][1], end=" ")
+
+
+def HandleBranching(if_stack):
+  if_statement = if_stack[0]
+  branch = HandleIf(if_statement)
+
+  if branch:
+    to_interpret = []
+    loop, i = True, 1
+
+    while loop and i < len(if_stack):
+      if if_stack[i][0][0] == "endif" or if_stack[i][0][0] == "else":
+        loop = False
+      else:
+        to_interpret.append(if_stack[i])
+
+        i += 1
+
+    Interpret([to_interpret[1]], False)
+  else:
+    to_interpret = []
+    appending = False
+
+    for i in range(1, len(if_stack)):
+      chunk = if_stack[i]
+
+      if appending:
+        to_interpret.append(chunk)
+      if chunk[0][0] == "else":
+        appending = True
+      if chunk[0][0] == "endif":
+        if appending:
+          to_interpret.pop()
+    Interpret(to_interpret, False)
+
+
+def HandleIf(chunk):
+
+  comparers = {
+      '<': operator.lt,
+      '<=': operator.le,
+      '=': operator.eq,
+      '!=': operator.ne,
+      '>=': operator.ge,
+      '>': operator.gt,
+  }
+
+  comparer = chunk[2][0]
+
+  if comparer in comparers:
+    if chunk[1][1] in variables:
+      left = variables[chunk[1][1]]
+    else:
+      left = int(chunk[1][1])
+
+    if chunk[3][1] in variables:
+      right = variables[chunk[3][1]]
+    else:
+      right = int(chunk[3][1])
+
+    return comparers[comparer](left, right)
+  else:
+    print("Interpretation: Error 'Unknown comparer'")
+    return False

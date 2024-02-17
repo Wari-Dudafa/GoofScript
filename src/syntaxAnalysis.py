@@ -4,7 +4,7 @@ from src import constants
 def SyntaxAnalysis(tokens):
   next_token = []
 
-  for (i, token) in enumerate(tokens):
+  for  token in tokens:
     if len(next_token) == 0:
       if token[0] in constants.ALL_TOKENS:
         next_token = constants.NEXT_TOKEN[token[0]]

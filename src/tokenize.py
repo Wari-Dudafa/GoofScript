@@ -11,11 +11,18 @@ def Tokenize(content):
 
     if token in constants.ALL_TOKENS:
       tokens_array.append([token, token, True])
+      continue
     else:
       tokens_array.append(["not_token", token, False])
 
     if token[-1] == ";":
       tokens_array.pop()
-      tokens_array.append(["not_token", token[0:len(token) - 1], False])
+      new_token = token[0:len(token) - 1]
+
+      if new_token in constants.ALL_TOKENS:
+        tokens_array.append([new_token, new_token, True])
+      else:
+        tokens_array.append(["not_token", new_token , False])
+
       tokens_array.append([";", ";", True])
   return tokens_array

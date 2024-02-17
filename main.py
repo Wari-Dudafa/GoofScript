@@ -15,7 +15,7 @@ def main():
     syntax_tree = syntaxAnalysis.SyntaxAnalysis(tokens)
 
     if syntax_tree[0]:
-      interpret.Interpret(syntax_tree[1])
+      interpret.Interpret(syntax_tree[1], True)
 
 
 main()

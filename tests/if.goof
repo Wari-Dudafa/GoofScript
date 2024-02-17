@@ -1,0 +1,20 @@
+int x : 0;
+int y : 100;
+int z : 1000;
+
+str bigger_x : x is bigger than y;
+str bigger_y : y is bigger than x;
+
+if y < x;
+  print bigger_y;
+else;
+  print bigger_x;
+endif;
+
+if y > x;
+  print bigger_y;
+endif;
+
+if z > x;
+  print z;
+endif;
