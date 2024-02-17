@@ -11,9 +11,25 @@ def Interpret(syntax_tree, should_chunkize):
     chunks = syntax_tree
 
   if_stack = []
+  while_stack = []
+
   if_append = False
+  while_append = False
 
   for chunk in chunks:
+
+    if chunk[0][0] == "while":
+      while_append = True
+      while_stack.append(chunk)
+    elif chunk[0][0] == "endwhile":
+      while_stack.append(chunk)
+      HandleLooping(while_stack)
+      while_append = False
+      while_stack = []
+
+    if while_append:
+      while_stack.append(chunk)
+      continue
 
     if chunk[0][0] == "if":
       if_append = True
@@ -55,8 +71,9 @@ def Variable(chunk):
   caster = {"int": int, "str": str, "bool": bool}
 
   if data_type in constants.VARIABLE_DECLARATION:
-    if chunk[1][0] == "not_token":
-      variables[name] = None
+    if chunk[1][0] != "not_token":
+      print(f'Interpretation: Error "Invalid variable name"')
+      return
     if chunk[2][0] == ":":
       cast = caster[data_type]
 
@@ -198,3 +215,22 @@ def HandleIf(chunk):
   else:
     print("Interpretation: Error 'Unknown comparer'")
     return False
+
+
+def HandleLooping(while_stack):
+  while_statement = while_stack[0]
+  branch = HandleIf(while_statement)
+
+  while branch:
+    to_interpret = []
+    loop, i = True, 1
+
+    while loop and i < len(while_stack):
+      if while_stack[i][0][0] == "endwhile":
+        loop = False
+      else:
+        to_interpret.append(while_stack[i])
+
+        i += 1
+    Interpret(to_interpret[1:len(to_interpret)], False)
+    branch = HandleIf(while_statement)
