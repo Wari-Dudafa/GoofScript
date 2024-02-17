@@ -6,6 +6,9 @@ def Tokenize(content):
   tokens_array = []
 
   for token in tokens:
+    if token == " " or token == "":
+      continue
+
     if token in constants.ALL_TOKENS:
       tokens_array.append([token, token, True])
     else:
