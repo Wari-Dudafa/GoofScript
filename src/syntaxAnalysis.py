@@ -6,8 +6,12 @@ def SyntaxAnalysis(tokens):
 
   for (i, token) in enumerate(tokens):
     if len(next_token) == 0:
-      next_token = constants.NEXT_TOKEN[token[0]]
-      continue
+      if token[0] in constants.ALL_TOKENS:
+        next_token = constants.NEXT_TOKEN[token[0]]
+        continue
+      else:
+        print(f'Syntax Analysis: Error "{token[1]}"')
+        return [False]
 
     if token[0] == ";":
       next_token = []
