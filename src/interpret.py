@@ -1,4 +1,4 @@
-import constants
+from src import constants
 
 variables = {}
 
@@ -68,8 +68,8 @@ def HandleMath(chunk):
   while i < len(expr):
       # Get the operator and the next number
     operator = expr[i][1]
-
-    if expr[0][1] in variables:
+    
+    if expr[i + 1][1] in variables:
       number = variables[expr[i + 1][1]]
     else:
       number = int(expr[i + 1][1])

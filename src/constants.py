@@ -17,8 +17,10 @@ NEXT_TOKEN = {
   "bool": ["not_token"],
   "not_token": [":", "+", "-", "*", "/", ";", "not_token"],
   ":": ["not_token"],
-  "+": ["not_token", "int"],
-  "-": ["not_token", "int"],
+  "+": ["not_token"],
+  "-": ["not_token"],
+  "*": ["not_token"],
+  "/": ["not_token"],
   "print": ["not_token"],
   
 }

@@ -1,0 +1,12 @@
+int x : 2;
+int y : 5;
+
+int add : 7 + x;
+int subtract : y - x;
+int divide : y / x;
+int multiply : y * 8;
+
+print add;
+print subtract;
+print divide;
+print multiply;
