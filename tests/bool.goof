@@ -1,4 +1,4 @@
 bool t : true;
-bool f : false:
+bool f : false;
 
 print t; print f;

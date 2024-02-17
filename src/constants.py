@@ -1,39 +1,72 @@
+IF = "if"
+ELSE = "else"
+ENDIF = "endif"
+WHILE = "while"
+ENDWHILE = "endwhile"
+FALSE = "false"
+TRUE = "true"
+PRINT = "print"
+BOOL = "bool"
+INT = "int"
+STR = "str"
+NOT_TOKEN = "not_token"
+ENDLINE = ";"
+ASSIGNMENT = ":"
+PLUS = "+"
+MINUS = "-"
+MULTIPLY = "*"
+DIVIDE = "/"
+LT = "<"
+GT = ">"
+LE = "<="
+GE = ">="
+NE = "!="
+EQ = "="
+
+
 ALL_TOKENS = [
-  "if", "endif", "for", "else", "true", "while", "endwhile",
-  "false", "print", "bool", "int", "str",
-  "not_token", "or", "and", "not",
-  ":", "+", "-", "*", "/", ";",
-  "=", "<", ">", "<=", ">=", "!=",
+  IF, ENDIF, ELSE, TRUE, WHILE, ENDWHILE,
+  FALSE, PRINT, BOOL, INT, STR,
+  NOT_TOKEN, ASSIGNMENT, PLUS, MINUS, MULTIPLY, DIVIDE, ENDLINE,
+  EQ, LT, GT, LE, GE, NE,
 ]
 BUILT_IN_FUNCTIONS = [
-  "print"
+  PRINT
 ]
-DATATYPE = [
-  "bool", "int", "str"
+VARIABLE_DECLARATION = [
+  BOOL, INT, STR
 ]
-VARIABLE_DECLARATION = ["bool", "int", "str"]
-MATHS = ["+", "-", "*", "/"]
-COMPARATORS = ["<", ">", "<=", ">=", "!=", "="]
+MATHS = [
+  PLUS, MINUS, MULTIPLY, DIVIDE
+]
+COMPARATORS = [
+  EQ, LT, GT, LE, GE, NE
+]
+BOOLEANS = [
+  TRUE, FALSE
+]
 NEXT_TOKEN = {
-  "not_token": ALL_TOKENS,
-  "int": ["not_token"] + MATHS,
-  "str": ["not_token"],
-  "bool": ["not_token"],
-  ":": ["not_token"],
-  "+": ["not_token"],
-  "-": ["not_token"],
-  "*": ["not_token"],
-  "/": ["not_token"],
-  "print": ["not_token"],
-  "if": ["not_token"],
-  "else": [";"],
-  "endif": [";"],
-  "while": ["not_token"],
-  "endwhile": [";"],
-  "<": ["not_token"],
-  "=": ["not_token"],
-  ">": ["not_token"],
-  "<=": ["not_token"],
-  ">=": ["not_token"],
-  "!=": ["not_token"],
+  NOT_TOKEN: ALL_TOKENS,
+  INT: [NOT_TOKEN] + MATHS,
+  STR: [NOT_TOKEN],
+  BOOL: [NOT_TOKEN],
+  PRINT: [NOT_TOKEN],
+  IF: [NOT_TOKEN],
+  ELSE: [ENDLINE],
+  ENDIF: [ENDLINE],
+  WHILE: [NOT_TOKEN],
+  ENDWHILE: [ENDLINE],
+  ASSIGNMENT: [NOT_TOKEN] + BOOLEANS,
+  PLUS: [NOT_TOKEN],
+  MINUS: [NOT_TOKEN],
+  MULTIPLY: [NOT_TOKEN],
+  DIVIDE: [NOT_TOKEN],
+  LT: [NOT_TOKEN],
+  EQ: [NOT_TOKEN],
+  GT: [NOT_TOKEN],
+  LE: [NOT_TOKEN],
+  GE: [NOT_TOKEN],
+  NE: [NOT_TOKEN],
+  TRUE: [NOT_TOKEN],
+  FALSE: [NOT_TOKEN],
 }

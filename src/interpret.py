@@ -18,10 +18,10 @@ def Interpret(syntax_tree, should_chunkize):
 
   for chunk in chunks:
 
-    if chunk[0][0] == "while":
+    if chunk[0][0] == constants.WHILE:
       while_append = True
       while_stack.append(chunk)
-    elif chunk[0][0] == "endwhile":
+    elif chunk[0][0] == constants.ENDWHILE:
       while_stack.append(chunk)
       HandleLooping(while_stack)
       while_append = False
@@ -31,10 +31,10 @@ def Interpret(syntax_tree, should_chunkize):
       while_stack.append(chunk)
       continue
 
-    if chunk[0][0] == "if":
+    if chunk[0][0] == constants.IF:
       if_append = True
       if_stack.append(chunk)
-    elif chunk[0][0] == "endif":
+    elif chunk[0][0] == constants.ENDIF:
       if_stack.append(chunk)
       HandleBranching(if_stack)
       if_append = False
@@ -57,7 +57,7 @@ def Chunkize(syntax_tree):
   for statement in syntax_tree:
     current_chunk.append(statement)
 
-    if statement[0] == ';':
+    if statement[0] == constants.ENDLINE:
       current_chunk.pop()
       chunks.append(current_chunk)
       current_chunk = []
@@ -68,18 +68,18 @@ def Chunkize(syntax_tree):
 def Variable(chunk):
   data_type = chunk[0][0]
   name = chunk[1][1]
-  caster = {"int": int, "str": str, "bool": bool}
+  caster = {constants.INT: int, constants.STR: str, constants.BOOL: bool}
 
   if data_type in constants.VARIABLE_DECLARATION:
-    if chunk[1][0] != "not_token":
+    if chunk[1][0] != constants.NOT_TOKEN:
       print(f'Interpretation: Error "Invalid variable name"')
       return
-    if chunk[2][0] == ":":
+    if chunk[2][0] == constants.ASSIGNMENT:
       cast = caster[data_type]
 
-      if data_type == "int":
+      if data_type == constants.INT:
         variables[name] = HandleMath(chunk)
-      elif data_type == "str":
+      elif data_type == constants.STR:
 
         string_array = chunk[3:len(chunk)]
         string = ""
@@ -112,13 +112,13 @@ def HandleMath(chunk):
       number = int(expr[i + 1][1])
 
     # Perform the operation based on the operator
-    if operator == "+":
+    if operator == constants.PLUS:
       result += number
-    elif operator == "-":
+    elif operator == constants.MINUS:
       result -= number
-    elif operator == "*":
+    elif operator == constants.MULTIPLY:
       result *= number
-    elif operator == "/":
+    elif operator == constants.DIVIDE:
       result /= number
     else:
       print(f'Interpretation: Error "Unknown operator"')
@@ -131,7 +131,7 @@ def HandleMath(chunk):
 
 
 def BuiltInFunction(chunk):
-  if chunk[0][0] == "print":
+  if chunk[0][0] == constants.PRINT:
     HandlePrint(chunk)
 
 
@@ -144,7 +144,7 @@ def HandlePrint(chunk):
 
   else:
     for i in range(1, len(chunk)):
-      if chunk[i][0] == "not_token":
+      if chunk[i][0] == constants.NOT_TOKEN:
         if chunk[i][1] in variables:
           print(variables[chunk[i][1]], end=" ")
         else:
@@ -162,7 +162,7 @@ def HandleBranching(if_stack):
     loop, i = True, 1
 
     while loop and i < len(if_stack):
-      if if_stack[i][0][0] == "endif" or if_stack[i][0][0] == "else":
+      if if_stack[i][0][0] == constants.ENDIF or if_stack[i][0][0] == constants.ELSE:
         loop = False
       else:
         to_interpret.append(if_stack[i])
@@ -179,9 +179,9 @@ def HandleBranching(if_stack):
 
       if appending:
         to_interpret.append(chunk)
-      if chunk[0][0] == "else":
+      if chunk[0][0] == constants.ELSE:
         appending = True
-      if chunk[0][0] == "endif":
+      if chunk[0][0] == constants.ENDIF:
         if appending:
           to_interpret.pop()
     Interpret(to_interpret, False)
@@ -190,12 +190,12 @@ def HandleBranching(if_stack):
 def HandleIf(chunk):
 
   comparers = {
-      '<': operator.lt,
-      '<=': operator.le,
-      '=': operator.eq,
-      '!=': operator.ne,
-      '>=': operator.ge,
-      '>': operator.gt,
+      constants.LT: operator.lt,
+      constants.LE: operator.le,
+      constants.EQ: operator.eq,
+      constants.NE: operator.ne,
+      constants.GE: operator.ge,
+      constants.GT: operator.gt,
   }
 
   comparer = chunk[2][0]
@@ -226,7 +226,7 @@ def HandleLooping(while_stack):
     loop, i = True, 1
 
     while loop and i < len(while_stack):
-      if while_stack[i][0][0] == "endwhile":
+      if while_stack[i][0][0] == constants.ENDWHILE:
         loop = False
       else:
         to_interpret.append(while_stack[i])
