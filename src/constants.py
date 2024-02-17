@@ -15,10 +15,12 @@ NEXT_TOKEN = {
   "int": ["not_token", "+", "-"],
   "str": ["not_token"],
   "bool": ["not_token"],
-  "not_token": [":", "+", "-", "*", "/", ";"],
+  "not_token": [":", "+", "-", "*", "/", ";", "not_token"],
   ":": ["not_token"],
   "+": ["not_token", "int"],
-  "-": ["not_token", "int"]
+  "-": ["not_token", "int"],
+  "print": ["not_token"],
+  
 }
 VARIABLE_DECLARATION = ["bool", "int", "str"]
 MATHS = ["+", "-", "*", "/"]

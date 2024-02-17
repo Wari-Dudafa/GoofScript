@@ -1,4 +1,10 @@
+int x : 7;
+int y : 10;
 
-str hello : "hello";
-int w : 30 - 5 + 20;
+str hello : hello world;
 
+int z : x + y;
+
+print hello;
+print x;
+print uyrfeuh  gvuygh    verevv;

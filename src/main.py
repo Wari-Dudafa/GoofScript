@@ -11,8 +11,6 @@ def main():
     syntax_tree = syntaxAnalysis.SyntaxAnalysis(tokens)
 
     if syntax_tree[0]:
-      print("Syntax Analysis: OK")
-
       interpret.Interpret(syntax_tree[1])
 
 
