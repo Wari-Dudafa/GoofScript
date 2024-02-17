@@ -1,9 +1,4 @@
-int x : 0;
-int y : 10;
 
-int z : x + y;
-
-str hello : hello;
-
-bool chicken : False;
+str hello : "hello";
+int w : 30 - 5 + 20;
 

@@ -12,11 +12,13 @@ DATATYPE = [
   "bool", "int", "str"
 ]
 NEXT_TOKEN = {
-  "int": ["not_token", "+"],
-  "str": ["not_token" ],
-  "bool": ["not_token" ],
-  "not_token": [":", "+"],
+  "int": ["not_token", "+", "-"],
+  "str": ["not_token"],
+  "bool": ["not_token"],
+  "not_token": [":", "+", "-", "*", "/", ";"],
   ":": ["not_token"],
-  "+": ["not_token", "int"]
+  "+": ["not_token", "int"],
+  "-": ["not_token", "int"]
 }
 VARIABLE_DECLARATION = ["bool", "int", "str"]
+MATHS = ["+", "-", "*", "/"]
