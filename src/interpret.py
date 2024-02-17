@@ -52,7 +52,7 @@ def Variable(chunk):
 
         variables[name] = cast(string)
       else:  # it is a bolean
-        data = chunk[3][1]
+        data = (chunk[3][1].lower() == "true")
         variables[name] = cast(data)
 
 
