@@ -1,4 +1,4 @@
-from src import constants
+from GoofScript.src import constants
 import operator
 import math
 
