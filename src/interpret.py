@@ -1,7 +1,9 @@
 from src import constants
 import operator
+import math
 
 variables = {}
+caster = {constants.INT: int, constants.STR: str, constants.BOOL: bool}
 
 
 def Interpret(syntax_tree, should_chunkize):
@@ -68,9 +70,16 @@ def Chunkize(syntax_tree):
 def Variable(chunk):
   data_type = chunk[0][0]
   name = chunk[1][1]
-  caster = {constants.INT: int, constants.STR: str, constants.BOOL: bool}
 
   if data_type in constants.VARIABLE_DECLARATION:
+    if data_type == constants.ARR:
+      HandleArray(chunk)
+      return
+
+    if chunk[3][0] == constants.ARR:
+      MakeVariablearrayItem(chunk, data_type)
+      return
+
     if chunk[1][0] != constants.NOT_TOKEN:
       print(f'Interpretation: Error "Invalid variable name"')
       return
@@ -234,3 +243,72 @@ def HandleLooping(while_stack):
         i += 1
     Interpret(to_interpret[1:len(to_interpret)], False)
     branch = HandleIf(while_statement)
+
+
+def HandleArray(chunk):
+  chunk_length = len(chunk)
+
+  if chunk_length < 2:
+    print("Interpretation: Error 'Array must have a name'")
+    return
+  elif chunk_length == 2:
+    # Make array
+    variables[chunk[1][1]] = []
+    return
+  elif chunk_length == 3:
+    # Pop array
+    if len(variables[chunk[1][1]]) < 0:
+      variables[chunk[1][1]].pop()
+    else:
+      print("Interpretation: Error 'Array is empty'")
+    return
+  elif chunk_length == 4:
+    # Either get or append
+    HandleArrayMethod(chunk)
+    return
+  elif chunk_length > 4:
+    print("Interpretation: Error 'Array has too many parameters'")
+    return
+
+
+def HandleArrayMethod(chunk):
+  if chunk[2][0] == constants.ARR_GET:
+    if chunk[3][1] in variables:
+      index = variables[chunk[3][1]]
+    else:
+      index = int(chunk[3][1])
+
+    if index < len(variables[chunk[1][1]]):
+      print(variables[chunk[1][1]][index])
+    else:
+      print("Interpretation: Error 'Index out of range'")
+  elif chunk[2][0] == constants.ARR_APPEND:
+    if chunk[3][1] in variables:
+      if variables[chunk[3][1]] in variables:
+        variables[chunk[1][1]].append(variables[chunk[3][1]])
+      else:
+        variables[chunk[1][1]].append(variables[chunk[3][1]])
+    else:
+      if math.isnan(int(chunk[3][1])):
+        variables[chunk[1][1]].append(chunk[3][1])
+      else:
+        variables[chunk[1][1]].append(int(chunk[3][1]))
+  else:
+    print("Interpretation: Error 'Unknown array method'")
+
+
+def MakeVariablearrayItem(chunk, data_type):
+  var_name = chunk[1][1]
+  array_name = chunk[4][1]
+  index = chunk[6][1]
+
+  if array_name in variables:
+
+    if index in variables:
+      index = variables[index]
+
+    array = variables[array_name]
+    variables[var_name] = array[int(index)]
+  else:
+    print("Interpretation: Error 'Array not found'")
+    return
