@@ -77,7 +77,7 @@ def Variable(chunk):
       return
 
     if chunk[3][0] == constants.ARR:
-      MakeVariablearrayItem(chunk, data_type)
+      MakeVariableArrayItem(chunk)
       return
 
     if chunk[1][0] != constants.NOT_TOKEN:
@@ -297,7 +297,7 @@ def HandleArrayMethod(chunk):
     print("Interpretation: Error 'Unknown array method'")
 
 
-def MakeVariablearrayItem(chunk, data_type):
+def MakeVariableArrayItem(chunk):
   var_name = chunk[1][1]
   array_name = chunk[4][1]
   index = chunk[6][1]

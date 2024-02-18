@@ -2,13 +2,15 @@ arr my_array;
 str name : hello im bob;
 
 arr my_array append 1;
-arr my_array append 1;
-arr my_array append 1;
+arr my_array append 10;
+arr my_array append 100;
 arr my_array append name;
 
 int i : arr my_array get 0;
+str bob : arr my_array get 3;
 
 arr my_array get 0;
 
 print my_array;
 print i;
+print bob;
