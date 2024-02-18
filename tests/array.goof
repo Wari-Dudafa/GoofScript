@@ -1,16 +1,16 @@
-arr my_array;
-str name : hello im bob;
+tub my_array.
+word name @ hello im bob.
 
-arr my_array append 1;
-arr my_array append 10;
-arr my_array append 100;
-arr my_array append name;
+tub my_array shove 1.
+tub my_array shove 10.
+tub my_array shove 100.
+tub my_array shove name.
 
-int i : arr my_array get 0;
-str bob : arr my_array get 3;
+digits i @ tub my_array pluck 0.
+word bob @ tub my_array pluck 3.
 
-arr my_array get 0;
+tub my_array pluck 0.
 
-print my_array;
-print i;
-print bob;
+YELLING my_array.
+YELLING i.
+YELLING bob.

@@ -1,28 +1,28 @@
-int x : 0;
-int y : 100;
-int z : 1000;
+digit x @ 0.
+digit y @ 100.
+digit z @ 1000.
 
-str my_name : john;
-str your_name : john;
-str same_name_message : We have the same name!!;
+word my_name @ john.
+word your_name @ john.
+word same_name_message @ We have the same name!!.
 
-str bigger_y : y is bigger than x;
-str bigger_y : y is bigger than x;
+word bigger_y @ y is bigger than x.
+word bigger_y @ y is bigger than x.
 
-if y < x;
-  print bigger_y;
-else;
-  print bigger_x;
-endif;
+suppose y smoked x.
+  YELLING bigger_y.
+orrr.
+  YELLING bigger_x.
+nvm.
 
-if y > x;
-  print bigger_y;
-endif;
+suppose y smokes x.
+  YELLING bigger_y.
+nvm.
 
-if z > x;
-  print z;
-endif;
+suppose z smokes x.
+  YELLING z.
+nvm.
 
-if my_name = your_name;
-  print same_name_message;
-endif;
+suppose my_name hit your_name.
+  YELLING same_name_message.
+nvm.
