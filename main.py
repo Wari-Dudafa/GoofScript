@@ -10,10 +10,10 @@ path = sys.argv[2]
 if sys.argv[1] == "test":
   path = "./tests/" + path + ".goof"
 elif sys.argv[1] == "prod":
-  path = "./" + path + ".goof"
+  path = path + ".goof"
 
 
-def main():
+def main(path):
 
   with open(path, "r") as file:
     content = file.read()
@@ -24,4 +24,4 @@ def main():
       interpret.Interpret(syntax_tree[1], True)
 
 
-main()
+main(path)
