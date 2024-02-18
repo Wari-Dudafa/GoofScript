@@ -4,12 +4,18 @@ from src import interpret
 
 import sys
 
-path = sys.argv[1]
+
+path = sys.argv[2]
+
+if sys.argv[1] == "test":
+  path = "./tests/" + path + ".goof"
+elif sys.argv[1] == "prod":
+  path = "./" + path + ".goof"
 
 
 def main():
 
-  with open("./tests/" + path + ".goof", "r") as file:
+  with open(path, "r") as file:
     content = file.read()
     tokens = tokenize.Tokenize(content.replace("\n", " "))
     syntax_tree = syntaxAnalysis.SyntaxAnalysis(tokens)
